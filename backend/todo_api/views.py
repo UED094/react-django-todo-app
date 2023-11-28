@@ -1,7 +1,6 @@
-from django.shortcuts import render
 from rest_framework import viewsets
-from .serializers import TodoSerializer
-from .models import Todo
+from todo_api.serializers import TodoSerializer
+from todo.models import Todo
 
 # Create your views here.
 
