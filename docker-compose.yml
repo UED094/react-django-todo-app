@@ -1,6 +1,21 @@
 version: "3"
 
 services:
+  todo-app:
+    build:
+      context: backend/.
+      dockerfile: Dockerfile
+    container_name: todo_app_container
+    ports:
+      - "8000:8000"
+    environment:
+      - DJANGO_DB_HOST=postgres
+      - DJANGO_DB_PORT=5432
+      - DJANGO_DB_NAME=todo_app_database
+      - DJANGO_DB_USER=todo_svc_user
+      - DJANGO_DB_PASSWORD=mypassword
+    depends_on:
+      - postgres
   postgres:
     image: postgres:latest
     container_name: todo_app_postgress_container
@@ -12,5 +27,14 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+  react:
+    build:
+      context: frontend/todo/.
+      dockerfile: Dockerfile
+    container_name: todo_app_react_container
+    ports:
+      - "3000:3000"
+    depends_on:
+      - todo-app
 volumes:
   postgres_data:
